@@ -1,109 +1,45 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Button,
-  TouchableHighlight,
-  Image,
-  Alert
-} from 'react-native';
+import firebase from './fire';
+
+    const storage = firebase.storage();
+    const files = [ 'image1.png', 'image2.png' ]; 
+    files.map( filename => {
+        storage
+          .ref( `/covers/${filename}` )
+          .getDownloadURL()
+          .then( url => {
+            console.log( "Got download url: ", url );
+          });
+    });
 
 export default class LoginPage extends Component {
 
+
   constructor(props) {
     super(props);
-    state = {
+    this.state = {
       email   : '',
       password: '',
     }
+    this.firestore = firebase.firestore(); // This works fine.
+    this.storage = firebase.storage(); // This fails
+    console.log( "Got storage ref" );
   }
-
-  onClickListener = (viewId) => {
-    Alert.alert("Alert", "Button pressed "+viewId);
-  }
+  
 
   render() {
+    const storage = firebase.storage();
+    const files = [ 'image1.png', 'image2.png' ]; 
+    files.map( filename => {
+        storage
+          .ref( `/covers/${filename}` )
+          .getDownloadURL()
+          .then( url => {
+            console.log( "Got download url: ", url );
+          });
+    });
     return (
-      <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          <Image style={styles.inputIcon} source={{uri: 'https://png.icons8.com/message/ultraviolet/50/3498db'}}/>
-          <TextInput style={styles.inputs}
-              placeholder="Email"
-              keyboardType="email-address"
-              underlineColorAndroid='transparent'
-              onChangeText={(email) => this.setState({email})}/>
-        </View>
-        
-        <View style={styles.inputContainer}>
-          <Image style={styles.inputIcon} source={{uri: 'https://png.icons8.com/key-2/ultraviolet/50/3498db'}}/>
-          <TextInput style={styles.inputs}
-              placeholder="Password"
-              secureTextEntry={true}
-              underlineColorAndroid='transparent'
-              onChangeText={(password) => this.setState({password})}/>
-        </View>
-
-        <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.onClickListener('login')}>
-          <Text style={styles.loginText}>Login</Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight style={styles.buttonContainer} onPress={() => this.onClickListener('restore_password')}>
-            <Text>Forgot your password?</Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight style={styles.buttonContainer} onPress={() => this.onClickListener('register')}>
-            <Text>Register</Text>
-        </TouchableHighlight>
-      </View>
+      <input type="file" ref={this.setRef}/>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#DCDCDC',
-  },
-  inputContainer: {
-      borderBottomColor: '#F5FCFF',
-      backgroundColor: '#FFFFFF',
-      borderRadius:30,
-      borderBottomWidth: 1,
-      width:250,
-      height:45,
-      marginBottom:20,
-      flexDirection: 'row',
-      alignItems:'center'
-  },
-  inputs:{
-      height:45,
-      marginLeft:16,
-      borderBottomColor: '#FFFFFF',
-      flex:1,
-  },
-  inputIcon:{
-    width:30,
-    height:30,
-    marginLeft:15,
-    justifyContent: 'center'
-  },
-  buttonContainer: {
-    height:45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom:20,
-    width:250,
-    borderRadius:30,
-  },
-  loginButton: {
-    backgroundColor: "#00b5ec",
-  },
-  loginText: {
-    color: 'white',
-  }
-});
