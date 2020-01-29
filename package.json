@@ -8,9 +8,10 @@
     "@firebase/auth": "0.13.4",
     "@firebase/firestore": "1.9.3",
     "@firebase/storage": "0.3.24",
-    "firebase": "^7.7.0",
+    "firebase": "7.7.0",
     "react": "16.9.0",
-    "react-dom": "16.9.0"
+    "react-dom": "16.9.0",
+    "react-firebase-file-uploader": "^2.4.3"
   },
   "scripts": {
     "start": "react-scripts start",
